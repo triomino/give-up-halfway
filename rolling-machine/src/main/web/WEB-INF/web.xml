@@ -1,7 +1,7 @@
 <web-app>
     <servlet>
         <servlet-name>HelloWorld</servlet-name>
-        <servlet-class>indi.zya.rollingmachine.HelloWorld</servlet-class>
+        <servlet-class>indi.zya.api.servlets.HelloWorld</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -1,4 +1,4 @@
-package indi.zya.rollingmachine;
+package indi.zya.api.servlets;
 
 import java.io.*;
 import javax.servlet.*;
@@ -21,7 +21,7 @@ public class HelloWorld extends HttpServlet {
       response.setContentType("text/html");
 
       PrintWriter out = response.getWriter();
-      out.println("<h1>" + message + "</h1>");
+      out.println("abc");
   }
 
   public void destroy()
