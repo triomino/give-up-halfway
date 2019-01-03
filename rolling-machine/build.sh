@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# build locally
 source variables.sh
 export CLASSPATH=${CATALINA_HOME}/lib/servlet-api.jar:${CLASSPATH}
 

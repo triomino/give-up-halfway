@@ -3,6 +3,12 @@ Part of backend. API layer between front end and back end.
 
 Try using tools with lower layers.
 
+## build
+run dependencies.sh and build.sh.
+
+## running
+run deploy.sh and start.sh
+ 
 ## Challenges
 service model: Use tomcat(servlet) + nginx rather than spring MVC.
 
