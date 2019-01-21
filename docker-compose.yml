@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  rolling-machine:
+    imgae: rolling-machine
+    ports:
+      - "8080:8080"

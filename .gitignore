@@ -6,3 +6,6 @@ build
 
 # dependencies
 dep
+
+# node
+node_modules

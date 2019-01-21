@@ -1,0 +1,12 @@
+{
+  "name": "faucet",
+  "version": "1.0.0",
+  "description": "Container management. CI and CD.",
+  "main": "src/index.js",
+  "author": "Zhang Yuan",
+  "license": "MIT",
+  "dependencies": {
+    "github-webhook-handler": "^0.7.1",
+    "shelljs": "^0.8.3"
+  }
+}
