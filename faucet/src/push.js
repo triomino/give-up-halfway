@@ -1,39 +1,35 @@
 let shell = require('shelljs')
 
-
-mapBranchToProject = {
-  'api': 'rolling-machine',
-  'nginx': 'pokeball',
-  'deploy': 'faucet'
-}
-
-buildScripts = {
-  'rolling-machine': 'docker build -t rolling-machine rolling-machine',
-  'pokeball': 'docker build -t pokeball pokeball',
-  // TODO: restart server it self automaticly.
+const buildTemplate = project => `docker build -t ${project} ${project}`
+const buildScripts = {
+  'rolling-machine': buildTemplate('rolling-machine'),
+  'pokeball': buildTemplate('pokeball'),
+  // TODO: restart server it self automatically.
   'faucet': 'yarn',
 }
 
-updateService = [
+// test commits contains deploy string
+const deployString = 'lets go!'
+const shouldDeploy = commits => commits.filter(
+  commit => commit['message'].indexOf(deployString) >= 0
+).length > 0
 
-]
 
 function runScriptWithPushEvent(e) {
-  // const list = e.payload.ref.split('/')
-  // const branch = list.length > 0 ? list[list.length-1] : undefined
-  // if (branch) {
-  //   const project = mapBranchToProject[branch];
-  //   shell.exec(`docker build -t ${branch} `)
-  // }
+  const {payload: {ref, commits}} = e
 
-  // currently any push will cause all image to rebuild
-  for (let project in buildScripts) {
-    shell.exec(buildScripts[project])
+
+  if (ref === 'refs/heads/master' || shouldDeploy(commits)) {
+    console.log('rebuilding')
+    shell.exec(`git fetch origin ${ref} && git reset --hard origin/${ref}`)
+    // currently any push will cause all images to rebuild
+    for (let project in buildScripts) {
+      shell.exec(buildScripts[project])
+    }
+    console.log('building complete')
   }
-
-
 }
 
-module.export = {
+module.exports = {
   runScriptWithPushEvent
 }
