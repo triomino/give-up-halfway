@@ -1,1 +1,1 @@
-~/.yarn/bin/forever -l ~/foreverlog -o ~/log -e ~/error start src/index.js
+~/.yarn/bin/forever -a -l ~/foreverlog -o ~/log -e ~/error start src/index.js

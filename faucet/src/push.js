@@ -1,6 +1,6 @@
 let shell = require('shelljs')
 
-const buildTemplate = project => `docker build -t ${project} ${project}`
+const buildTemplate = project => `docker build -t ${project} ../${project}`
 const buildScripts = {
   'rolling-machine': buildTemplate('rolling-machine'),
   'pokeball': buildTemplate('pokeball'),
@@ -16,12 +16,12 @@ const shouldDeploy = commits => commits.filter(
 
 
 function runScriptWithPushEvent(e) {
-  const {payload: {ref, commits}} = e
+  const {payload: {ref, commit, after}} = e
 
 
   if (ref === 'refs/heads/master' || shouldDeploy(commits)) {
     console.log('rebuilding')
-    shell.exec(`git fetch origin ${ref} && git reset --hard origin/${ref}`)
+    shell.exec(`git fetch origin ${ref} && git reset --hard ${after}`)
     // currently any push will cause all images to rebuild
     for (let project in buildScripts) {
       shell.exec(buildScripts[project])
