@@ -9,7 +9,7 @@ public class HelloWorld extends HttpServlet {
 
   public void init()
   {
-      message = "Hello World";
+      message = "Hello dd";
       System.out.println("init HellowWorld");
   }
 

@@ -16,7 +16,7 @@ const shouldDeploy = commits => commits.filter(
 
 
 function runScriptWithPushEvent(e) {
-  const {payload: {ref, commit, after}} = e
+  const {payload: {ref, commits, after}} = e
 
 
   if (ref === 'refs/heads/master' || shouldDeploy(commits)) {
