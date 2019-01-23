@@ -1,7 +1,39 @@
-version: "3"
+version: "3.7"
 
 services:
-  rolling-machine:
-    imgae: rolling-machine
+  registry:
+    image: registry
     ports:
-      - "8080:8080"
+      - target: 5000
+        published: 5000
+        mode: ingress
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.labels.usedfor == deploy]
+  rolling-machine:
+    image: 127.0.0.1:5000/rolling-machine
+    build: rolling-machine 
+    ports:
+      - target: 8080
+        published: 8080
+        mode: host
+    deploy:
+      mode: global
+      placement: 
+        constraints: [node.labels.usedfor == api]
+    depends_on:
+      - "registry"
+  pokeball:
+    image: 127.0.0.1:5000/pokeball
+    build: pokeball
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+    deploy:
+      mode: global
+      placement: 
+        constraints: [node.labels.usedfor == nginx]
+    depends_on:
+      - "registry"
