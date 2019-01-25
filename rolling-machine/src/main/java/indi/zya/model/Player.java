@@ -10,6 +10,9 @@ import static indi.zya.model.Camp.DOG;
 
 public class Player {
     private double x, y;
+    private double toX, toY;
+    private PlayerState playerState = PlayerState.IDLE;
+    private double speed = 5;
     private Camp camp;
     private int id;
 
@@ -52,15 +55,36 @@ public class Player {
         return y;
     }
 
-    void setPos(double x, double y) {
-        this.y = y;
-        this.x = x;
+    void setMovingTo(double x, double y) {
+        playerState = PlayerState.MOVING;
+        toX = x;
+        toY = y;
     }
 
     String getVisibleState() {
-        // TODO: It is terrible to maintain string myself. Use grpc later.
-        return String.format("{\"players\":{%s},\"me\":%d}", players.stream().map(player -> String.format("\"%d\":{\"x\":%f,\"y\":%f}",player.id, player.x, player.y))
-                .collect(Collectors.joining(",")), this.id);
+        // TODO: It is terrible to maintain string myself. Use grpc or other tool later.
+        return String.format("{\"players\":{%s},\"me\":%d}", players.stream().map(player -> String.format(
+                "\"%d\":{\"x\":%f,\"y\":%f, \"s\":%f}",player.id, player.x, player.y, player.speed
+                )
+        ).collect(Collectors.joining(",")), this.id);
+    }
+
+    private void move() {
+        if (playerState == PlayerState.MOVING) {
+            double len = Math.sqrt((toX - x) * (toX - x) + (toY - y) * (toY - y));
+            if (len <= speed) {
+                x = toX;
+                y = toY;
+            }
+            else {
+                x += (toX-x) / len * speed;
+                y += (toY-y) / len * speed;
+            }
+        }
+    }
+
+    static void moveAll() {
+        players.forEach(Player::move);
     }
 
     void leave() {

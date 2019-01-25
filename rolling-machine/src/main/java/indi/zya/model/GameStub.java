@@ -17,6 +17,7 @@ public class GameStub {
             @Override
             public void run() {
                 try {
+                    GameStub.selfUpdateState();
                     Beginner.sendState();
                 } catch (RuntimeException ignored) {
 //                    log.error("Caught to prevent timer from shutting down", e);
@@ -28,8 +29,12 @@ public class GameStub {
     public void updateState(String raw) {
         JSONObject state = new JSONObject(raw);
         // TODO: do not trust the client
-        player.setPos(state.getJSONObject("pos").getDouble("x"), state.getJSONObject("pos").getDouble("y"));
+        player.setMovingTo(state.getJSONObject("movingTo").getDouble("x"), state.getJSONObject("movingTo").getDouble("y"));
 
+    }
+
+    static private void selfUpdateState() {
+        Player.moveAll();
     }
 
     public String getState() {
