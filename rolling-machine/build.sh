@@ -2,7 +2,8 @@
 
 # build locally
 source variables.sh
-export CLASSPATH=${CATALINA_HOME}/lib/servlet-api.jar:${CLASSPATH}
+export CLASSPATH=${CATALINA_HOME}/lib/servlet-api.jar:${CATALINA_HOME}/lib/websocket-api.jar:${CLASSPATH}
+export CLASSPATH=${DEP_PATH}/${ORG_JSON_JAR}:${JAVA_SRC}:${CLASSPATH}
 
 # compile
 echo Compiling
@@ -11,6 +12,7 @@ if [[ ! -d ${BUILD_PATH} ]]; then
     mkdir -p ${BUILD_PATH}
 fi
 javac src/main/java/indi/zya/api/servlets/*.java -d ${BUILD_PATH}
+javac src/main/java/indi/zya/api/websockets/*.java -d ${BUILD_PATH}
 
 echo Compile Finished
 
