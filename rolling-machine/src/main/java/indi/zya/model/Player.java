@@ -12,7 +12,7 @@ public class Player {
     private double x, y;
     private double toX, toY;
     private PlayerState playerState = PlayerState.IDLE;
-    private double speed = 5;
+    private double speed = 0.8;
     private Camp camp;
     private int id;
 
