@@ -26,7 +26,7 @@ function runScriptWithPushEvent(e) {
     // for (let project in buildScripts) {
     //  shell.exec(buildScripts[project])
     // }
-    shell.exec('cd .. && docker-compose build && docker-compose push && docker stack deploy -c docker-compose.yml app')
+    shell.exec('cd .. && docker-compose build --build-arg CACHEBUST=`date +%s`  && docker-compose push && docker stack deploy -c docker-compose.yml app')
     console.log('complete')
   }
 }
